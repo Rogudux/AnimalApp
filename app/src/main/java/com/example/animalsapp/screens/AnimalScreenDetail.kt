@@ -79,7 +79,6 @@ fun AnimalScreenDetail(
 
     }
 
-
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -88,7 +87,7 @@ fun AnimalScreenDetail(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
 
-            ) {
+        ) {
             Log.i("Animal Screen " , animals?.name ?: "")
 
 
