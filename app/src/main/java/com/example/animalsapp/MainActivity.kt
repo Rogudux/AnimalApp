@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,11 +26,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.animalsapp.screens.AnimalScreenDetail
 import com.example.animalsapp.screens.EnvironmentScreen
 import com.example.animalsapp.screens.AnimalsScreen
+import com.example.animalsapp.screens.EnvironmentScreenDetail
 import com.example.animalsapp.ui.theme.AnimalsAppTheme
 import paw
 import undefined
@@ -49,7 +54,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .background(colorResource(id = R.color.backGreen)),
                     contentColor = Color.Transparent,
                     containerColor = Color.Transparent,
@@ -116,17 +122,39 @@ class MainActivity : ComponentActivity() {
                     }
 
 
-
-
-
                 ) { innerPadding ->
 
                     NavHost(navController = navController, startDestination = "home"){
                         composable (route = "home"){
-                            AnimalsScreen(paddingValues  = innerPadding)
+                            AnimalsScreen(paddingValues  = innerPadding, navController = navController)
                         }
+
+                        composable(route = "animals/{id}",
+                            arguments = listOf(
+                                navArgument("id"){
+                                    type = NavType.StringType
+                                    nullable = false
+                                }
+                            )
+                        ) {
+                            val id = it.arguments?.getString("id") ?: ""
+                            AnimalScreenDetail(paddingValues = innerPadding, animalId = id)
+                        }
+
                         composable (route = "environment"){
-                            EnvironmentScreen(paddingValues  = innerPadding)
+                            EnvironmentScreen(paddingValues  = innerPadding, navController = navController)
+                        }
+
+                        composable(route = "environments/{id}",
+                            arguments = listOf(
+                                navArgument("id"){
+                                    type = NavType.StringType
+                                    nullable = false
+                                }
+                            )
+                        ) {
+                            val id = it.arguments?.getString("id") ?: ""
+                            EnvironmentScreenDetail(innerPadding = innerPadding, environmentId = id)
                         }
                     }
 

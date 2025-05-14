@@ -40,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.animalsapp.R
 import com.example.animalsapp.components.AnimalIcon
@@ -52,7 +53,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 @Composable
-fun AnimalsScreen(paddingValues: PaddingValues){
+fun AnimalsScreen(paddingValues: PaddingValues, navController: NavController){
 
     var animals by remember {
         mutableStateOf<List<animals>>(emptyList())
@@ -150,16 +151,14 @@ fun AnimalsScreen(paddingValues: PaddingValues){
                 modifier = Modifier.padding(2.dp),
                 verticalArrangement = Arrangement.spacedBy(30.dp)
             ) {
-                animal.forEachIndexed { index, animal ->
-                    val nameToShow = if (index == 0) {
-                        animal.name.take(6)
-                    } else {
-                        animal.name
-                    }
-
+                animal.forEach { animal ->
                     AnimalIcon(
-                        image = animal.image,
-                        name = nameToShow
+                       animal = animal,
+                        onAnimalClick = { clickedAnimal ->
+                            Log.i("Animal Screen " , clickedAnimal.id)
+                            navController.navigate("animals/${clickedAnimal.id}")
+
+                        }
                     )
                 }
             }

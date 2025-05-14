@@ -1,5 +1,5 @@
 package com.example.animalsapp.components
-
+import android.os.Environment
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,14 +29,15 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.animalsapp.R
 import com.example.animalsapp.models.animals
+import com.example.animalsapp.models.environment
 
 @Composable
-fun AnimalIcon(animal:animals, onAnimalClick: (animals)->Unit){
+fun EnvironmentIcon(environment:environment, onEnvironmentClick: (environment)->Unit){
 
 
     Column(modifier = Modifier.fillMaxSize()
         .clickable {
-            onAnimalClick(animal)
+            onEnvironmentClick(environment)
         },
         horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -46,17 +47,17 @@ fun AnimalIcon(animal:animals, onAnimalClick: (animals)->Unit){
 
         ){
             AsyncImage(
-                model = animal.image,
+                model = environment.image,
                 contentDescription = null,
                 placeholder = painterResource(R.drawable.ic_launcher_background),
                 error =  painterResource(R.drawable.ic_launcher_background),
                 modifier = Modifier.fillMaxSize()
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop,
-                )
+            )
         }
 
-        Text(text = animal.name,
+        Text(text = environment.name,
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold

@@ -30,8 +30,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.animalsapp.R
 import com.example.animalsapp.components.AnimalIcon
+import com.example.animalsapp.components.EnvironmentIcon
 import com.example.animalsapp.models.environment
 import com.example.animalsapp.services.EnvironmentService
 import kotlinx.coroutines.launch
@@ -39,7 +41,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
-fun EnvironmentScreen(paddingValues: PaddingValues){
+fun EnvironmentScreen(paddingValues: PaddingValues, navController: NavController){
 
     var environment by remember {
         mutableStateOf<List<environment>>(emptyList())
@@ -105,11 +107,17 @@ fun EnvironmentScreen(paddingValues: PaddingValues){
                     .spacedBy(30.dp)
             ){
                 environment.forEach{environment ->
+                    EnvironmentIcon (
+                        environment = environment,
+                        onEnvironmentClick = { clickedEnvi ->
+                            Log.i("Animal Screen " , clickedEnvi._id)
+                            navController.navigate("environments/${clickedEnvi._id}")
 
-                    AnimalIcon(
-                        image = environment.image,
-                        name = environment.name
+
+                        }
                     )
+
+
                 }
             }
 
